@@ -1,0 +1,12 @@
+size(500, 500)
+background(255)
+smooth()
+noLoop()
+strokeWeight(3)
+stroke(100)
+fill(50,80)
+
+ellipse(250,200,100,100)
+ellipse(250-50,250,100,100)
+ellipse(250+50,250,100,100)
+ellipse(250,250+50,100,100)
