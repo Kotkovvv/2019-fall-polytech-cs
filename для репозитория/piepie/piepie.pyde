@@ -1,79 +1,75 @@
 w=50
 h=50
 gamekey=True
-paddleW=30
-paddleH=100
-paddleS=8
-colorL = color(255,0,0);
-colorR = color(0,83,138);
-scoreL = 0; 
-scoreR = 0;
-winScore = 3;
+blockW=30
+blockH=100
+blockS=8
+colorL = color(255,0,0)
+colorR = color(0,83,138)
+scoreL = 0
+scoreR = 0
+winScore = 3
 
-def setup(): 
-  textSize(30);
-  textAlign(CENTER, CENTER); 
+def setup():
+  textSize(30)
+  textAlign(CENTER, CENTER);
   rectMode(CENTER)
-  size(500, 500);
-  global x,y, paddleXL, paddleYL, paddleW, paddleH, paddleXL,paddleXR, paddleYR, upL, upR, speedX, speedY
-  x = width/2; 
-  y = height/2;
-  w = 50;
-  h = 50;
-  speedX = 1.25;
-  speedY = 1.25;
-  paddleXL = 40;
-  paddleYL = height/2;
-  paddleXR = width-40;
-  paddleYR = height/2;
-  paddleW = 30;
-  paddleH = 100;
-  paddleS = 5;
+  size(500, 500)
+  global x,y, blockXL, blockYL, blockW, blockH, blockXL,blockXR, blockYR, upL, upR, speedX, speedY
+  x = width/2
+  y = height/2
+  w = 50
+  h = 50
+  speedX = 1.25
+  speedY = 1.25
+  blockXL = 40
+  blockYL = height/2
+  blockXR = width-40
+  blockYR = height/2
+  blockW = 30
+  blockH = 100
+  blockS = 5
   
 def draw():
   if gamekey:  
-    background(0);
-    drawCircle();
-    moveCircle();
-    bounceOff();
-    drawPaddles();
-    restrictPaddle();
-    contactPaddle();
-    scores();
+    background(0)
+    drawCircle()
+    moveCircle()
+    bounceOff()
+    drawblocks()
+    restrictblock()
+    contactblock()
+    scores()
     gameOver()
   gamekeystart()
     
+def drawblocks():
+  global blockXL, blockYL, blockW, blockH, blockXL, blockXR, blockYR
+  fill(colorL)
+  rect(blockXL, blockYL, blockW, blockH)
+  fill(colorR)
+  rect(blockXR, blockYR, blockW, blockH)
   
-def drawPaddles():
-  global paddleXL, paddleYL, paddleW, paddleH, paddleXL, paddleXR, paddleYR
-  fill(colorL);
-  rect(paddleXL, paddleYL, paddleW, paddleH);
-  fill(colorR);
-  rect(paddleXR, paddleYR, paddleW, paddleH);
+def restrictblock():
+  global blockYL,  blockH, blockYR, blockS
+  if blockYL - blockH/2 < 0: 
+    blockYL = blockYL + blockS;
   
-
+  if blockYL + blockH/2 > height:
+    blockYL = blockYL - blockS;
+  
+  if blockYR - blockH/2 < 0:
+    blockYR = blockYR + blockS;
+  
+  if blockYR + blockH/2 > height:
+    blockYR = blockYR - blockS;
     
-    
-def restrictPaddle():
-  global paddleYL,  paddleH, paddleYR, paddleS
-  if paddleYL - paddleH/2 < 0: 
-    paddleYL = paddleYL + paddleS;
-  
-  if paddleYL + paddleH/2 > height:
-    paddleYL = paddleYL - paddleS;
-  
-  if paddleYR - paddleH/2 < 0:
-    paddleYR = paddleYR + paddleS;
-  
-  if paddleYR + paddleH/2 > height:
-    paddleYR = paddleYR - paddleS;
-    
-def contactPaddle():
+def contactblock():
   global speedX
-  if x-w/2<paddleXL+paddleW/2 and y-h/2<paddleYL+paddleH/2 and y + h/2 > paddleYL - paddleH/2:
+  if x-w/2<blockXL+blockW/2 and y-h/2<blockYL+blockH/2 and y + h/2 > blockYL - blockH/2:
     if speedX<0:
       speedX=-speedX*1;
-  if x+w/2>paddleXR-paddleW/2 and y-h/2<paddleYR+paddleH/2 and y+h/2>paddleYR-paddleH/2:
+  if x+w/2>blockXR-blockW/2 and y-h/2<blockYR+blockH/2 and y+h/2>blockYR-blockH/2:
     if speedX > 0:
       speedX = -speedX*1;
       
@@ -107,21 +103,21 @@ def scores():
   text(scoreR, width-100, 50)
     
 def keyPressed():
-    global upL, upR, downR, downL, paddleYL, paddleS,paddleYR
+    global upL, upR, downR, downL, blockYL, blockS,blockYR
     if key == "w" or key == "W":
-        paddleYL = paddleYL - paddleS
+        blockYL = blockYL - blockS
     if key == "s" or key == "S":
-        paddleYL = paddleYL + paddleS
+        blockYL = blockYL + blockS
     if keyCode == UP:
-        paddleYR = paddleYR - paddleS
+        blockYR = blockYR - blockS
     if keyCode == DOWN:
-        paddleYR = paddleYR + paddleS
+        blockYR = blockYR + blockS
   
 def gameOverPage(winner):
   global speedX,speedY, gamekey
   fill(255)
   text("Game over", width/2, height/3 - 40)
-  text("Click to play again", width/2, height/3 + 40)
+  text("Click mouse to play again", width/2, height/3 + 40)
   text(winner ,width/2,height/3 - 80)
   gamekey= False
     
@@ -132,14 +128,14 @@ def gameOver():
     gameOverPage("Blue wins!")
     
 def gamekeystart():
-    global gamekey,scoreR,scoreL, speedX, speedY,paddleXL,paddleYL,paddleXR,paddleYR
+    global gamekey,scoreR,scoreL, speedX, speedY,blockXL,blockYL,blockXR,blockYR
     if mousePressed:
         gamekey=True
         scoreR = 0
         scoreL = 0
         speedX = 1.25
         speedX = 1.25
-        paddleXL = 40
-        paddleYL = height/2
-        paddleXR = width-40
-        paddleYR = height/2
+        blockXL = 40
+        blockYL = height/2
+        blockXR = width-40
+        blockYR = height/2
